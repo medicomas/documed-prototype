@@ -1,0 +1,42 @@
+[
+	{
+		"id": 1,
+		"names": "paolito",
+		"surnames": "flores congora",
+		"documentType": "Carné Estudiantil",
+		"document": "22200084",
+		"gender": "M"
+	},
+	{
+		"id": 3,
+		"names": "stevitan",
+		"surnames": "diaz",
+		"documentType": "Carné Estudiante",
+		"document": "22200083",
+		"gender": "M"
+	},
+	{
+		"id": 4,
+		"names": "damaris marian",
+		"surnames": "del carpio martinez",
+		"documentType": "Carné Estudiantil",
+		"document": "22200082",
+		"gender": "F"
+	},
+	{
+		"id": 5,
+		"names": "alwin edu",
+		"surnames": "davila raffo",
+		"documentType": "Carné Estudiante",
+		"document": "22200081",
+		"gender": "M"
+	},
+	{
+		"id": 6,
+		"names": "jose benjamin",
+		"surnames": "flores gomez",
+		"documentType": "Carné Estudiante",
+		"document": "22200085",
+		"gender": "M"
+	}
+]
