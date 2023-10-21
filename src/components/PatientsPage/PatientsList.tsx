@@ -17,8 +17,8 @@ function PatientsList() {
   }
 
   return (
-    <div>
-      <h1 className="mb-4 text-lg">Pacientes medicomas</h1>
+    <>
+      <h1 className="mt-6 text-lg">Pacientes medicomas</h1>
       <table className="flex flex-col">
         <tbody>
           {(data as Patient[]).map((patient) => (
@@ -37,7 +37,7 @@ function PatientsList() {
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
 

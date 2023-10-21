@@ -4,8 +4,22 @@
 
 :root {
   --header-height: 60px;
+  --navigator-bar-height: 32px;
+  --padding-x: 8rem;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   /* color-scheme: light dark; */
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --padding-x: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --padding-x: 1rem;
+  }
 }
 
 body {
@@ -14,14 +28,22 @@ body {
 #root, main {
   width: 100%;
   height: 100%;
+  overflow: auto;
 }
 
 main {
-  height: calc(100vh - var(--header-height));
+  height: calc(100vh - var(--header-height) - var(--navigator-bar-height));
+  padding: 0 var(--padding-x) 0 var(--padding-x);
 }
 
 #main-header {
   height: var(--header-height);
+  padding: 0 var(--padding-x) 0 var(--padding-x);
+}
+
+#navigator-header {
+  height: var(--navigator-bar-height);
+  padding: 0 var(--padding-x) 0 var(--padding-x);
 }
 
 * {

@@ -1,6 +1,5 @@
 import { Route, Switch } from "wouter"
 import Header from "./components/Header"
-import Sidebar from "./components/Sidebar"
 import NotFound from "./components/404"
 import Dashboard from "./components/Dashboard"
 import PatientsPage from "./components/PatientsPage/Page"
@@ -23,7 +22,6 @@ function App() {
   return (
     <>
       <Header />
-      <Sidebar />
       <Switch>
         <Route path="/">
           <Dashboard />

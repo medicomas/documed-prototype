@@ -2,7 +2,7 @@ import PatientsList from "./PatientsList";
 
 function PatientsPage() {
   return (
-    <main className="p-6">
+    <main>
       <PatientsList />
     </main>
   );
