@@ -1,10 +1,10 @@
 import { Patient } from "../../types";
-import { useApi } from "../../hooks/useApi";
+import { useFetch } from "../../hooks/useApi";
 import { Link } from "wouter";
 
 function PatientsList() {
   // revalidate every time the component re-renders
-  const { data, error, isLoading } = useApi('/patient');
+  const { data, error, isLoading } = useFetch('/patient');
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -18,7 +18,7 @@ function PatientsList() {
 
   return (
     <>
-      <h1 className="mt-6 text-lg">Pacientes medicomas</h1>
+      <h1 className="mt-6 mb-4 text-lg">Pacientes medicomas</h1>
       <table className="flex flex-col">
         <tbody>
           {(data as Patient[]).map((patient) => (

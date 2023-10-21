@@ -1,30 +1,46 @@
 import { FieldValues, useForm } from "react-hook-form";
-import { useApi } from "../../hooks/useApi";
-import { useAPIUrl } from "../../state";
+import { useFetch } from "../../hooks/useApi";
 import { Patient } from "../../types";
 import { useState } from "react";
+import { medifetch } from "../../services/medifetch";
+
+enum ButtonStatus {
+  IDLE = 'Editar',
+  LOADING = 'Guardando...',
+  SUCCESS = 'Editado! 🐢',
+  ERROR = 'Error 😿'
+}
 
 function PatientInformationForm({ id }: { id: string }) {
-  const { data, error, isLoading, mutate } = useApi(`/patient/${id}`);
-  const [isEditing, setIsEditing] = useState(false);
+  const { data, error, isLoading, mutate } = useFetch(`/patient/${id}`);
+  const [buttonStatus, setButtonStatus] = useState(ButtonStatus.IDLE);
   const { register, handleSubmit } = useForm();
 
   const patient = data as Patient | undefined;
 
-  const onSubmit = (data: FieldValues) => {
-    const { medifetch } = useAPIUrl.getState();
-
-    setIsEditing(true);
-    medifetch(`/patient/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(data => {
-      mutate(data);
-      setIsEditing(false);
-    })
+  const onSubmit = async (data: FieldValues) => {
+    setButtonStatus(ButtonStatus.LOADING);
+    try {
+      const response = await medifetch(`/patient/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const newUser = await response.json() as Patient;
+      mutate(newUser, {
+        revalidate: false
+      });
+    }
+    catch (e) {
+      setButtonStatus(ButtonStatus.ERROR);
+      setTimeout(() => setButtonStatus(ButtonStatus.IDLE), 2000);
+    }
+    finally {
+      setButtonStatus(ButtonStatus.SUCCESS);
+      setTimeout(() => setButtonStatus(ButtonStatus.IDLE), 2000);
+    }
   }
 
   return (
@@ -54,10 +70,10 @@ function PatientInformationForm({ id }: { id: string }) {
       <section className="flex justify-end">
         <button
           type="submit"
-          disabled={isEditing}
+          disabled={buttonStatus === ButtonStatus.LOADING}
           className="bg-slate-100 hover:bg-slate-200 text-slate-900 text-xs py-2 px-4 rounded inline-flex items-center"
         >
-          {isEditing ? "Guardando... 👍" : "Editar"}
+          {buttonStatus}
         </button>
       </section>
     </form>

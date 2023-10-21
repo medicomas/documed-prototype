@@ -1,36 +1,36 @@
 import { Route, Switch } from "wouter"
-import Header from "./components/Header"
+import Header from "./components/Header/Header"
 import NotFound from "./components/404"
 import Dashboard from "./components/Dashboard"
-import PatientsPage from "./components/PatientsPage/Page"
+import PatientsPage from "./components/PatientsPage/PatientsPage"
 import PatientDetail from "./components/PatientsPage/PatientDetail"
-
-/**
-model Patient {
-  id           Int            @id @default(autoincrement())
-  names        String
-  surnames     String
-  documentType String
-  document     String         @unique
-  gender       String         @db.Char(1)
-  Appointments Appointments[]
-  Diagnose     Diagnose[]
-}
- */
+import LoginPage from "./components/Login/LoginPage"
+import WithSession from "./components/Login/WithSession"
 
 function App() {
   return (
     <>
       <Header />
       <Switch>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
         <Route path="/">
-          <Dashboard />
+          <WithSession>
+            <Dashboard />
+          </WithSession>
         </Route>
         <Route path="/pacientes">
-          <PatientsPage />
+          <WithSession>
+            <PatientsPage />
+          </WithSession>
         </Route>
         <Route path="/pacientes/:id">
-          {({ id }) => <PatientDetail id={id} />}
+            {(params) => (
+              <WithSession>
+                <PatientDetail id={params.id} />
+              </WithSession>
+            )}
         </Route>
         <Route>
           <NotFound />
