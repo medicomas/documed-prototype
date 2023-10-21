@@ -10,7 +10,7 @@ function UserView() {
         className="p-2 rounded-md bg-slate-500 h-8 text-xs text-white"
         onClick={() => {
           setToken('');
-          mutate('/auth/user')
+          mutate('/auth/user');
         }}
       >
         Logout

@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
 import { useFetch } from './useApi';
-import { TOKEN_KEY } from '../store';
-import { useLocalStorage } from '@uidotdev/usehooks';
 
 type UserRole = "ADMIN" | "DOCTOR";
 
@@ -14,10 +11,6 @@ interface LoggedUserInformation {
 
 export function useUser(): { loading: boolean, user: null | LoggedUserInformation } {
   const { data, error, isLoading } = useFetch('/auth/user');
-  const token = useLocalStorage(TOKEN_KEY);
-
-  useEffect(() => {
-  }, [token]);
 
   if (isLoading) return { loading: true, user: null };
   if (error) return { loading: false, user: null };

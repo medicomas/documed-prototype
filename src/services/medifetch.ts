@@ -1,4 +1,4 @@
-import { useAPIUrl, useToken } from '../store';
+import { TOKEN_KEY, useAPIUrl } from '../store';
 
 const API_COLORS = new Map([
   ['GET', '#ea9ac0'],
@@ -28,10 +28,11 @@ export async function medifetch(endpoint: string, init?: RequestInit) {
       ...init?.headers,
     }
   }
-  if (useToken.getState().token) {
+  const token = window.localStorage.getItem(TOKEN_KEY);
+  if (token) {
     init.headers = {
       ...init.headers,
-      'Authorization': `Bearer ${useToken.getState().token}`
+      'Authorization': `Bearer ${token}`
     }
   }
 
@@ -41,8 +42,7 @@ export async function medifetch(endpoint: string, init?: RequestInit) {
     init?.body ? `\n${JSON.stringify(JSON.parse(init.body as string), null, 2)}` : ''
   );
 
-  let res: Response | null = null;
-  res = await fetch(`${url}${endpoint}`, init);
+  const res = await fetch(`${url}${endpoint}`, init);
 
   res.clone().json().then(d => {
     console.log(res!.status, `${res!.statusText}`, d ?? '');

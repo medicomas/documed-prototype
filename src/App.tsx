@@ -8,6 +8,7 @@ import LoginPage from "./components/Login/LoginPage"
 import WithSession from "./components/Login/WithSession"
 
 function App() {
+  console.log('app rerender')
   return (
     <>
       <Header />
@@ -15,23 +16,20 @@ function App() {
         <Route path="/login">
           <LoginPage />
         </Route>
-        <Route path="/">
-          <WithSession>
+        <WithSession>
+          <Route path="/">
             <Dashboard />
-          </WithSession>
-        </Route>
-        <Route path="/pacientes">
-          <WithSession>
-            <PatientsPage />
-          </WithSession>
-        </Route>
-        <Route path="/pacientes/:id">
-            {(params) => (
-              <WithSession>
-                <PatientDetail id={params.id} />
-              </WithSession>
-            )}
-        </Route>
+          </Route>
+          <Route path="/pacientes">
+              <PatientsPage />
+
+          </Route>
+          <Route path="/pacientes/:id">
+              {(params) => (
+                  <PatientDetail id={params.id} />
+              )}
+          </Route>
+        </WithSession>
         <Route>
           <NotFound />
         </Route>
