@@ -30,6 +30,7 @@ export const useAPIUrl = create<ApiUrlState>()((set, get) => ({
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        'ngrok-skip-browser-warning': 'skip-browser-warning',
       }
     }
     const METHOD = init?.method || 'GET';
