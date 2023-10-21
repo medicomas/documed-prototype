@@ -25,6 +25,13 @@ export const useAPIUrl = create<ApiUrlState>()((set, get) => ({
   },
   medifetch: (endpoint: string, init?: RequestInit) => {
     // Print method, endpoint, and payload if it exists
+    init = {
+      ...init,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    }
     const METHOD = init?.method || 'GET';
     console.log(
       `%c${METHOD} %c${endpoint}`, `color: ${API_COLORS.get(METHOD)}`, 'color: #fff',
