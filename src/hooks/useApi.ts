@@ -17,6 +17,7 @@ export function useFetch(endpoint: string) {
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     endpoint,
     fetcher,
+    { revalidateOnFocus: false, }
   );
 
   useEffect(() => {

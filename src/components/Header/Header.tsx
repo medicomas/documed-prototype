@@ -13,7 +13,7 @@ function Header() {
           <Link to="/">
             <div className="border-black border mr-2 cursor-pointer">
               <img
-                className="w-12"
+                className="w-12 h-12"
                 src="https://avatars.githubusercontent.com/u/143916992?s=200&v=4"
               />
             </div>
@@ -21,7 +21,7 @@ function Header() {
           <div>
             <span className="text-white text-sm mr-2">API</span>
             <input
-              className="border p-2 text-xs w-64 border-black h-6"
+              className="border p-2 text-xs w-36 border-black h-6"
               placeholder="http://api.medicomas.com"
               value={url}
               onInput={(e) => {

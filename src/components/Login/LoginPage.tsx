@@ -1,15 +1,16 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { medifetch } from "../../services/medifetch";
-import { useUser } from "../../hooks/useUser";
 import { Redirect } from "wouter";
 import { useToken } from "../../store";
+import LoadingPage from "../LoadingPage";
+import { useUser } from "../../hooks/useUser";
 
 function LoginPage() {
   const { loading, user } = useUser();
   const { register, handleSubmit, formState: { errors }, setError } = useForm();
   const setToken = useToken(s => s.setToken);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingPage />;
   if (user) return <Redirect to="/" />;
 
   const onSubmit = async (fields: FieldValues) => {
@@ -24,20 +25,19 @@ function LoginPage() {
         setError('login', { message: 'Correo o contraseña incorrectos' });
         return;
       }
-      // TODO: handle success
       setToken(token);
     } catch (e) {
-      setError('api', { message: 'No funciona :(' });
+      setError('api', { message: '/auth/login didn\'t work' });
     }
   }
 
   return (
     <main className="flex flex-col items-center justify-center">
       <div className="border-black border-2">
-        <img className="h-[144px] w-[144px] p-4" src="https://avatars.githubusercontent.com/u/143916992?s=200&v=4" />
+        <img className="h-[144px] w-[144px]" src="https://avatars.githubusercontent.com/u/143916992?s=200&v=4" />
       </div>
       <h3 className="mt-4 text-slate-800">
-        El sistema de gestión de clínicas al 70%
+        El sistema de consultorio médico al 70%
       </h3>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center max-w-xl w-96 h-80 mt-4 bg-slate-50">
         <label className="flex flex-col mb-4 mt-10">

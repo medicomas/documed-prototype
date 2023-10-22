@@ -19,3 +19,12 @@ export type Patient = {
   document: string;
   gender: "M" | "F";
 }
+
+export type UserRole = "ADMIN" | "DOCTOR";
+
+export interface LoggedUserInformation {
+  email: string,
+  names: string,
+  surnames: string,
+  roles: UserRole[]
+}

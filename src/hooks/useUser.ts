@@ -1,30 +1,47 @@
-import { useFetch } from './useApi';
+import { create } from 'zustand';
+import { LoggedUserInformation } from '../types';
+import { medifetch } from '../services/medifetch';
+import { useToken } from '../store';
 
-type UserRole = "ADMIN" | "DOCTOR";
-
-interface LoggedUserInformation {
-  email: string,
-  names: string,
-  surnames: string,
-  roles: UserRole[]
+interface UserStateStore {
+  user: LoggedUserInformation | null,
+  loading: boolean,
+  setUserState: ({ user, loading }: { user: LoggedUserInformation | null, loading: boolean }) => void
 }
 
-export function useUser(): { loading: boolean, user: null | LoggedUserInformation } {
-  const { data, error, isLoading } = useFetch('/auth/user');
+export const useUser = create<UserStateStore>()((set) => ({
+  user: null,
+  loading: true,
+  setUserState: ({ user, loading }) => set({ user, loading })
+}));
 
-  if (isLoading) return { loading: true, user: null };
-  if (error) return { loading: false, user: null };
-  if (!data) return { loading: false, user: null };
-
-  return {
-    loading: false,
-    user: data as LoggedUserInformation
+const tryLogin = async () => {
+  try {
+    const res = await medifetch('/auth/user');
+    if (res.status === 401) {
+      throw 69;
+    }
+    const user = await res.json();
+    useUser.setState({
+      loading: false,
+      user: (user as unknown as LoggedUserInformation)
+    });
   }
+  catch {
+    useUser.setState({
+      loading: false,
+      user: null
+    });
+  }
+};
 
-  // return ({
-  //   email: "damaris@medicomas.com",
-  //   names: "Dr. Damaris Marian",
-  //   surnames: "Del Carpio Martinez",
-  //   roles: ["ADMIN"]
-  // } satisfies LoggedUserInformation);
-}
+useToken.subscribe(s => s.token, (token) => {
+  if (!token) {
+    useUser.setState({
+      loading: false,
+      user: null
+    });
+    return;
+  }
+  tryLogin();
+}, { fireImmediately: true });

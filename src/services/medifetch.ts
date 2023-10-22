@@ -15,6 +15,14 @@ const defaults = {
   },
 };
 
+/**
+ * A wrapper around fetch that adds the API URL and the token to the request
+ * and logs the request and response to the console.
+ *
+ * @param endpoint Relative URL to the API
+ * @param init Fetch options
+ * @returns Fetch response
+ */
 export async function medifetch(endpoint: string, init?: RequestInit) {
   let { url } = useAPIUrl.getState();
   while (url.endsWith('/')) {
